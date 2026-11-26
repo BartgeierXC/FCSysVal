@@ -1,0 +1,21 @@
+# Run D0: Quasi-stationary validation set D_0 (ID 1281).
+sim_config:
+  config_path: 2026-07-08_test_FCS_config.yml
+  input_path: OpCons_data.txt  # replaced by MODELICA_LUT_PATH
+
+data_source:
+  start_date: 2026-07-30 14:43:30
+  end_date: 2026-07-30 23:24:25
+  time_axis: elapsed
+  skip_time: 900
+  conditions: []
+  input_variables: ['I.S.act [A]', 'p.Si.A.set [bara]', 'v.ARB.req [rpm]', 'Fr.PC.Si.C [%]', 'Fr.Hu.i.AO [%]', 'v.CMP.req [rpm]', 'Fr.Mix.CL.AO [%]', 'CP.RPM.CL [%]', 'p.HF.o.CL.AI [bara]', 'T.HF.i.CL [°C]', 'Profile_StepNo [-]']
+  output_variables: ['U.S.AveCell [V]', 'P.S.act [W]', 'P.CMP.CV [kW]', 'P.ARB.CV [kW]', 'P.FU [W]', 'RH.Si.C [%]', 'T.Hu.i [°C]', 'T.Si.C [°C]', 'T.So.C [°C]', 'T.Si.CL [°C]', 'T.So.CL [°C]', 'T.CMP.o [°C]', 'p.So.A [bara]', 'p.So.C [bara]', 'pD.S.C [mbar]', 'pD.S.CL.CV [mbar]', 'F.Si.Cmp.C [kg/h]', 'p.CMP.ratio.CV [-]', 'p.Si.C [bara]', 'Profile_StepNo [-]']
+  input_factors: [1, '1e5', 1, '1e-2', '1e-2', 1, '1e-2', '1e-2', '1e5', 1, 1]
+
+group_config:
+  group_time: 150  # Grouping time in seconds
+  trigger_steps: 275
+  trigger: 'Profile_StepNo [-]'
+  conditions_file: D0_operating_conditions.csv
+  tolerance: 0.1

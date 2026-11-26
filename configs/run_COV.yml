@@ -1,0 +1,18 @@
+# Coverage of the validation set D_0: one run through the test profile (ID 1281) and its restart.
+sim_config:
+  config_path: 2026-07-08_test_FCS_config.yml
+  input_path: OpCons_data.txt  # not used, no simulation
+
+data_source:
+  start_date: 2026-07-30 14:58:58
+  end_date: 2026-07-30 23:56:23
+  time_axis: elapsed
+  conditions: []
+  input_variables: ['I.S.set [A]', 'I.S.act [A]', 'p.Si.A.set [bara]', 'p.Si.A [bara]', 'SS.F.Si.Air.C.set [nl/min]', 'F.Si.Cmp.C [kg/h]', 'p.Si.C.set [bara]', 'p.Si.C [bara]', 'v.ARB.req [rpm]', 'v.ARB.act [rpm]', 'SS.Delta.T [°C]', 'SS.T.Stack [°C]', 'DPT.Si.C.set [°C]', 'DPT.Si.C [°C]', 'T.Si.CL [°C]', 'T.So.CL [°C]', 'Profile_StepNo [-]']
+  output_variables: []
+
+group_config:
+  group_time: 150  # Grouping time in seconds
+  trigger_steps: 275
+  trigger: 'Profile_StepNo [-]'
+  tolerance: 0.1

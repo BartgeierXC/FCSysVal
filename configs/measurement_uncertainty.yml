@@ -1,0 +1,55 @@
+# Measurement uncertainty budget of the quasi-stationary evaluation.
+# All limits are half-widths of rectangular distributions, so each contributes a / sqrt(3).
+#
+# limits: accuracy limits in % of the reading.
+# chain: contributions of the analog measurement chain in % of the reading.
+# full_scale: accuracy limits in % of a full-scale or nominal value `of`, converted to the
+#   reading of each operating condition. Power signals of the supplies refer to their full
+#   scale or nominal value, not to the reading.
+# fixed: quantities used to derive the readings. The supplies of compressor and ARB run at a
+#   fixed voltage, so their current follows from the measured power.
+# The stack power P_FC = N I U_c is derived from U.S.AveCell and I.S.act, its uncertainty is
+# propagated from these two signals. The power of the electronic load (P.S.act) is a diagnostic
+# quantity and has no budget entry.
+
+chain:
+  reading: 0.1
+  conditioner: 0.1
+  adc: 0.031
+
+fixed:
+  cmp_voltage: 400       # V
+  arb_voltage: 24        # V, nominal voltage of the ARB
+
+signals:
+  'U.S.AveCell [V]':
+    limits: [0.6]        # cell voltage monitoring, 3 mV related to 0.5 V, digital
+  'I.S.act [A]':         # stack current of the electronic load, digital
+    absolute: [1.0]      # A, 0.1 % of the 1000 A full scale
+  'P.CMP.CV [kW]':       # compressor supply, analog current readback
+    full_scale:
+      - {percent: 0.1, of: 63, reading: cmp_current}       # readback, nominal current in A
+      - {percent: 0.1, of: 63, reading: cmp_current}       # signal conditioner
+      - {percent: 0.031, of: 63, reading: cmp_current}     # ADC
+      - {percent: 0.1, of: 400, reading: cmp_voltage}      # voltage setting
+  'P.ARB.CV [kW]':       # ARB supply, analog current monitor
+    full_scale:
+      - {percent: 0.2, of: 170, reading: arb_current}      # monitor, nominal current in A
+      - {percent: 0.1, of: 170, reading: arb_current}      # signal conditioner
+      - {percent: 0.031, of: 170, reading: arb_current}    # ADC
+      - {percent: 0.1, of: 40, reading: arb_voltage}       # voltage setting, nominal voltage 40 V
+  'P.FU [W]':            # pump, scaling of the full-scale current signal unknown, reading-based
+    limits: [2.5]
+    chain: [conditioner, adc]
+  # Subsystem quantities, sensor limits only. The analog chain (about 0.1 % of the reading)
+  # is negligible against these limits and is not included.
+  # absolute: accuracy limits in the unit of the signal.
+  # linear: one limit = absolute + percent of the reading, as given by the data sheet.
+  'F.Si.Cmp.C [kg/h]':   # Bosch HFM 5 air mass meter
+    limits: [3]
+  'p.Si.C [bara]':       # WIKA S-10, 0.5 % of the 0-4 bar range
+    absolute: [0.02]     # bar
+  'RH.Si.C [%]':         # Vaisala HMT330, +-(1.5 + 0.015 x reading) %RH, one limit
+    linear: [{absolute: 1.5, percent: 1.5}]
+  'T.So.CL [°C]':        # type K thermocouple
+    absolute: [1.5]      # K
